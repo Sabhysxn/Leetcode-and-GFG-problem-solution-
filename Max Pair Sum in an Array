@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int maxSum(vector<int>& nums) {
+        vector<int> first(10, -1), second(10, -1);
+
+        for(int num : nums) {
+            int x = num, mx = 0;
+            while(x > 0) {
+                mx = max(mx, x % 10);
+                x /= 10;
+            }
+            if(num > first[mx]) {
+                second[mx] = first[mx];
+                first[mx] = num;
+            } else if(num > second[mx]) {
+                second[mx] = num;
+            }
+        }
+
+        int ans = -1;
+        for(int d = 0; d <= 9; d++) {
+            if(first[d] != -1 && second[d] != -1) {
+                ans = max(ans, first[d] + second[d]);
+            }
+        }
+        return ans;
+    }
+};
